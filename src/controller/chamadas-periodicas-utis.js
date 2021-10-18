@@ -56,5 +56,5 @@ export const utis = async() => {
 
     await browser.close();
     
-    returhospitaisPagina;
+    return hospitaisPagina;
 };

@@ -3,6 +3,7 @@ import http from 'http';
 import { emergencias } from './controller/chamadas-periodicas-emergencias.js';
 import { utis } from './controller/chamadas-periodicas-utis.js';
 import { scheduleJob } from 'node-schedule';
+import { ModelEmergenciasSchema, ModelUtisSchema } from './model/post.js';
 
 const porta = 3000;
 app.set('port', porta);
@@ -16,11 +17,39 @@ const port = 3000;
 
 server.listen(port, () => {
 
-    console.log(`http://localhost:${port}/emergencias`);
-    console.log(`http://localhost:${port}/utis`);
+    // console.log(`http://localhost:${port}/emergencias`);
+    // console.log(`http://localhost:${port}/utis`);
 
     scheduleJob(' */1 * * * *', function(){
-        emergencias().then(emergencias => console.log(emergencias));
-        utis().then(utis => console.log(utis))
+        emergencias().then(emergencias => {
+            createEmergenciaSchemas(emergencias);
+            // console.log(emergencias)
+        });
+        utis().then(utis => {
+            createUtisSchemas(utis);
+            // console.log(utis);
+        });
     });
 });
+
+
+function createEmergenciaSchemas(emergencias) {
+    let schema = [];
+
+    emergencias.forEach(emergencia => {
+        schema.push(new ModelEmergenciasSchema(emergencia));
+    });
+
+    console.log(schema);
+}
+
+function createUtisSchemas(utis) {
+
+    let schema = [];
+
+    utis.forEach(uti => {
+        schema.push(new ModelUtisSchema(uti));
+    });
+    
+    console.log(schema);
+}
