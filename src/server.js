@@ -4,6 +4,15 @@ import { emergencias } from './controller/chamadas-periodicas-emergencias.js';
 import { utis } from './controller/chamadas-periodicas-utis.js';
 import { scheduleJob } from 'node-schedule';
 import { ModelEmergenciasSchema, ModelUtisSchema } from './model/post.js';
+import mongoose from 'mongoose';
+
+mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+    .then(() => {
+        console.log('Database connected!');
+    })
+    .catch(() => {
+        console.log('Connection Failed!')
+    });
 
 const porta = 3000;
 app.set('port', porta);
