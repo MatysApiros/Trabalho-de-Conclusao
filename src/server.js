@@ -14,7 +14,7 @@ mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.n
         console.log('Connection Failed!')
     });
 
-const porta = 3000;
+const porta = process.env.PORT || 3000;
 
 app.set('port', porta);
 
