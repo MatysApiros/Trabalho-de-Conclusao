@@ -6,7 +6,7 @@ import { scheduleJob } from 'node-schedule';
 import { ModelEmergenciasSchema, ModelUtisSchema } from './model/post.js';
 import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.net/hospitais?retryWrites=true&w=majority")
     .then(() => {
         console.log('Database connected!');
     })
@@ -15,41 +15,65 @@ mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.n
     });
 
 const porta = 3000;
+
 app.set('port', porta);
+
+app.get('/emergencias', (req,res, next) => {
+    ModelEmergenciasSchema.find()
+        .then(documents => {
+            res.status(200).json({
+                hospitais: documents
+            });
+        })
+        .catch();
+});
+app.get('/utis', (req,res, next) => {
+    ModelUtisSchema.find()
+        .then(documents => {
+            res.status(200).json({
+                hospitais: documents
+            });
+        })
+        .catch();
+});
+
 const server = http.createServer(app);
 
+server.listen(porta, () => {
 
-app.get('/emergencias', emergencias);
-app.get('/utis', utis);
+    console.log(`http://localhost:${porta}/emergencias`);
+    console.log(`http://localhost:${porta}/utis`);
 
-const port = 3000;
-
-server.listen(port, () => {
-
-    // console.log(`http://localhost:${port}/emergencias`);
-    // console.log(`http://localhost:${port}/utis`);
-
-    scheduleJob(' */1 * * * *', function(){
-        emergencias().then(emergencias => {
-            createEmergenciaSchemas(emergencias);
-            // console.log(emergencias)
-        });
-        utis().then(utis => {
-            createUtisSchemas(utis);
-            // console.log(utis);
-        });
-    });
+    chamadaScrapper();
 });
 
 
+function chamadaScrapper() {
+
+    try {
+        scheduleJob('0 0 */1 * * *', function(){
+            emergencias().then(emergencias => {
+                createEmergenciaSchemas(emergencias);
+            });
+            utis().then(utis => {
+                createUtisSchemas(utis);
+            });
+        });
+    } catch (error) {
+        setTimeout(() => chamadaScrapper(), 60000);
+    }
+}
+
 function createEmergenciaSchemas(emergencias) {
+
     let schema = [];
 
     emergencias.forEach(emergencia => {
         schema.push(new ModelEmergenciasSchema(emergencia));
     });
 
-    console.log(schema);
+    ModelEmergenciasSchema.deleteMany({})
+        .then(() => ModelEmergenciasSchema.bulkSave(schema));
 }
 
 function createUtisSchemas(utis) {
@@ -59,6 +83,7 @@ function createUtisSchemas(utis) {
     utis.forEach(uti => {
         schema.push(new ModelUtisSchema(uti));
     });
-    
-    console.log(schema);
+
+    ModelUtisSchema.deleteMany({})
+        .then(() => ModelUtisSchema.bulkSave(schema));
 }
