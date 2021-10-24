@@ -6,7 +6,10 @@ import {
 
 export const emergencias = async() => {
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox','--disable-setuid-sandbox'],
+    });
     const page = await browser.newPage();
 
     await page.goto('https://docs.google.com/spreadsheets/d/1-Zea1tEJd-rJJp77Veptkrone0_hddVKgy-pW58E5iM/pubhtml');
