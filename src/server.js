@@ -44,20 +44,25 @@ server.listen(porta, () => {
     console.log(`http://localhost:${porta}/emergencias`);
     console.log(`http://localhost:${porta}/utis`);
 
-    chamadaScrapper();
+    // SCHEDULE 1 minuto: ' */1 * * * *'
+
+    // SCHEDULE 1 hora: ' * */1 * * *'
+
+    scheduleJob('* * */1 * * *', function(){
+        chamadaScrapper();
+    });
+
 });
 
 
 function chamadaScrapper() {
 
     try {
-        scheduleJob('0 0 */1 * * *', function(){
-            emergencias().then(emergencias => {
-                createEmergenciaSchemas(emergencias);
-            });
-            utis().then(utis => {
-                createUtisSchemas(utis);
-            });
+        emergencias().then(emergencias => {
+            createEmergenciaSchemas(emergencias);
+        });
+        utis().then(utis => {
+            createUtisSchemas(utis);
         });
     } catch (error) {
         setTimeout(() => chamadaScrapper(), 60000);
