@@ -46,9 +46,9 @@ server.listen(porta, () => {
 
     // SCHEDULE 1 minuto: ' */1 * * * *'
 
-    // SCHEDULE 1 hora: ' * */1 * * *'
+    // SCHEDULE 1 hora: '* * 1 * * *'
 
-    scheduleJob('* * */1 * * *', function(){
+    scheduleJob('0 0 */1 * * *', function(){
         chamadaScrapper();
     });
 
@@ -59,9 +59,11 @@ function chamadaScrapper() {
 
     try {
         emergencias().then(emergencias => {
+            console.log(emergencias);
             createEmergenciaSchemas(emergencias);
         });
         utis().then(utis => {
+            console.log(utis);
             createUtisSchemas(utis);
         });
     } catch (error) {
