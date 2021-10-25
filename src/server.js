@@ -50,7 +50,7 @@ server.listen(porta, () => {
 
     scheduleJob('0 0 */1 * * *', function(){
 
-        console.log('Scheddule!');
+        console.log('Scheddule');
 
         chamadaScrapper();
     });
@@ -60,18 +60,26 @@ server.listen(porta, () => {
 
 function chamadaScrapper() {
 
-    console.log('Chamada Scrapper!');
+    console.log('Chamada Scrapper');
 
     try {
+
         emergencias().then(emergencias => {
-            console.log(emergencias);
+            console.info('Scrapping de Emergencias Realizado');
             createEmergenciaSchemas(emergencias);
+        }).catch(err => {
+            throw new Error(err);
         });
+
         utis().then(utis => {
-            console.log(utis);
+            console.info('Scrapping de UTIs Realizado');
             createUtisSchemas(utis);
+        }).catch(err => {
+            throw new Error(err);
         });
+
     } catch (error) {
+        console.error(error);
         setTimeout(() => chamadaScrapper(), 60000);
     }
 }
