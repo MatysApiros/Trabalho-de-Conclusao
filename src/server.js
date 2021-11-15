@@ -28,7 +28,7 @@ app.get('/emergencias', (req,res, next) => {
     ModelEmergenciasSchema.find()
         .then(documents => {
             res.status(200).json({
-                documents
+                emergencias: documents,
             });
         })
         .catch();
@@ -37,7 +37,7 @@ app.get('/utis', (req,res, next) => {
     ModelUtisSchema.find()
         .then(documents => {
             res.status(200).json({
-                documents
+                utis: documents,
             });
         })
         .catch();
