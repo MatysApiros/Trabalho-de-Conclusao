@@ -15,6 +15,11 @@ mongoose.connect("mongodb+srv://apiros:whiix416EGE7ghQa@cluster0.witsr.mongodb.n
         console.log('Connection Failed!')
     });
 
+/*
+    Cria uma nova instancia do server que ficará rodando
+    e ativa o scheduleJob encarregado de fazer chamadas
+    a cada 1 hora
+*/
 const server = http.createServer(app);
 
 server.listen(porta, () => {

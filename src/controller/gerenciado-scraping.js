@@ -2,6 +2,10 @@ import { ModelEmergenciasSchema, ModelUtisSchema } from '../model/post.js';
 import { emergencias } from "./chamadas-periodicas-emergencias.js";
 import { utis } from "./chamadas-periodicas-utis.js";
 
+/*
+    Realiza a chamada para os scrappers e
+    em caso de sucesso, salva os novos dados no banco
+*/
 export function chamadaScrapper() {
 
     console.info('--- Realizando chamada do scrapper ---');
@@ -28,6 +32,11 @@ export function chamadaScrapper() {
     }
 }
 
+
+/*
+    Preapara os dados de Emergencias para serem salvos,
+    deleta os dados atuais e só então salva os novos
+*/
 export function createEmergenciaSchemas(emergencias) {
 
     let schema = [];
@@ -40,6 +49,10 @@ export function createEmergenciaSchemas(emergencias) {
         .then(() => ModelEmergenciasSchema.bulkSave(schema));
 }
 
+/*
+    Preapara os dados de UTIs para serem salvos,
+    deleta os dados atuais e só então salva os novos
+*/
 export function createUtisSchemas(utis) {
 
     let schema = [];
@@ -51,3 +64,4 @@ export function createUtisSchemas(utis) {
     ModelUtisSchema.deleteMany({})
         .then(() => ModelUtisSchema.bulkSave(schema));
 }
+

@@ -4,7 +4,8 @@ export const referenciaElementosHTMLEmergencias = [
     '0R17',
     '0R18',
     '0R19',
-    '0R20',
+    // MUITO TEMPO SEM ATUALIZAÇÃO
+    // '0R20',
     '0R21',
     '0R22',
     '0R24',
@@ -15,7 +16,8 @@ export const referenciaElementosHTMLEmergencias = [
     '0R33',
     '0R34',
     '0R35',
-    '0R36',
+    // MUITO TEMPO SEM ATUALIZAÇÃO
+    // '0R36',
     '0R37',
     '0R38',
     '0R40',

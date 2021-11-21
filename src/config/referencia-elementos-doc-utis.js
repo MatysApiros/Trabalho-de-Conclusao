@@ -10,7 +10,8 @@ export const referenciaElementosHtmlUTIs = [
     '0R10',
     // '0R11',
     '0R12',
-    '0R13',
+    // MUITO TEMPO SEM ATUALIZAÇÃO
+    // '0R13',
     '0R14',
     '0R15',
     '0R16',
